@@ -3,123 +3,221 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IQRA Arabic Academy - LMS Portal</title>
+  <title>IQRA Arabic Academy Portal</title>
   <style>
     :root {
-      --primary: #2c3e50; --secondary: #34495e; --accent: #3498db;
-      --success: #27ae60; --warning: #f1c40f; --danger: #e74c3c;
-      --light: #f5f6fa; --dark: #2c3e50;
+      --primary: #128c7e; /* Main Teal Green from the logo */
+      --secondary: #075e54; /* Dark Teal for headers and dark buttons */
+      --mint: #e8f5f1; /* Light Mint Green background for boxes */
+      --success: #25d366; /* Bright Green for save buttons */
+      --light: #f7f9f8; /* Soft background */
+      --dark: #2c3e50;
     }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding: 0; }
-    .navbar { background-color: var(--primary); display: flex; justify-content: center; gap: 10px; padding: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
-    .nav-btn { background: none; border: none; color: #b2bec3; padding: 10px 20px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 4px; transition: 0.2s; }
-    .nav-btn:hover, .nav-btn.active { color: white; background-color: var(--secondary); }
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+      background-color: var(--light); 
+      color: var(--dark); 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    /* Top Menu Navigation */
+    .navbar { 
+      background-color: var(--primary); 
+      display: flex; 
+      justify-content: center; 
+      gap: 10px; 
+      padding: 12px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+    }
+    
+    .nav-btn { 
+      background: none; 
+      border: none; 
+      color: #bdf0e5; 
+      padding: 10px 20px; 
+      font-size: 15px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      border-radius: 4px; 
+      transition: 0.2s; 
+    }
+    
+    .nav-btn:hover, .nav-btn.active { 
+      color: white; 
+      background-color: var(--secondary); 
+    }
+    
+    .container { 
+      max-width: 1100px; 
+      margin: 20px auto; 
+      padding: 0 20px; 
+      box-sizing: border-box; 
+    }
+    
     .app-page { display: none; }
     .app-page.active { display: block; }
-    .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
-    header { text-align: center; margin-bottom: 30px; margin-top: 15px; }
-    header h1 { margin: 0; color: var(--primary); font-size: 32px; font-weight: 700; }
-    header p { margin: 5px 0 0 0; color: #7f8c8d; }
+    
+    /* Beautiful Academy Header featuring the Logo */
+    header { 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center; 
+      margin-bottom: 25px; 
+      margin-top: 20px; 
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      border-bottom: 3px solid var(--primary);
+    }
+    
+    .logo-img {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    header h1 { 
+      margin: 0; 
+      color: var(--primary); 
+      font-size: 28px; 
+      font-weight: 700; 
+      letter-spacing: 0.5px;
+    }
+    
+    header p { 
+      margin: 5px 0 0 0; 
+      color: #556360; 
+      font-weight: 500;
+      font-size: 16px;
+    }
+    
+    .card { 
+      background: white; 
+      padding: 25px; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+      margin-bottom: 25px; 
+    }
+    
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+    
     .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
     .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; box-sizing: border-box; }
-    .btn { background-color: var(--accent); color: white; border: none; padding: 11px 22px; font-size: 15px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: 0.2s; }
-    .btn:hover { background-color: #2980b9; }
-    .btn-success { background-color: var(--success); } .btn-success:hover { background-color: #219653; }
-    .btn-dark { background-color: var(--secondary); } .btn-dark:hover { background-color: #1a252f; }
+    
+    /* Clean Simple Action Buttons */
+    .btn { 
+      background-color: var(--primary); 
+      color: white; 
+      border: none; 
+      padding: 11px 22px; 
+      font-size: 15px; 
+      font-weight: 600; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      transition: 0.2s; 
+    }
+    .btn:hover { background-color: var(--secondary); }
+    .btn-success { background-color: var(--success); } .btn-success:hover { background-color: #1ebe57; }
+    .btn-dark { background-color: #555; } .btn-dark:hover { background-color: #333; }
+    
     table { width: 100%; border-collapse: collapse; margin-top: 15px; text-align: left; }
     th { background-color: var(--primary); color: white; padding: 12px; font-size: 14px; }
     td { padding: 12px; border-bottom: 1px solid #edf2f7; font-size: 15px; }
+    
     .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
     .badge-completed { background-color: #e8f8f5; color: #117a65; }
     .badge-progress { background-color: #ebf5fb; color: #2471a3; }
     .badge-upcoming { background-color: #fef9e7; color: #b7950b; }
+    
     .status-banner { padding: 12px; border-radius: 4px; text-align: center; font-weight: 600; margin-bottom: 20px; display: none; }
-    .loading-banner { background-color: #e1f5fe; color: #0288d1; display: block; }
+    .loading-banner { background-color: var(--mint); color: var(--secondary); display: block; }
     .error-banner { background-color: #ffebee; color: #c62828; display: block; }
-    .section-title { border-bottom: 2px solid #edf2f7; padding-bottom: 8px; margin-top: 0; color: var(--primary); }
+    .section-title { border-bottom: 2px solid var(--mint); padding-bottom: 8px; margin-top: 0; color: var(--primary); }
   </style>
 </head>
 <body>
 
   <nav class="navbar">
-    <button class="nav-btn active" onclick="switchPage('homePage')">🏠 Home & Syllabus</button>
-    <button class="nav-btn" onclick="switchPage('studentPage')">🎓 Student Portal</button>
-    <button class="nav-btn" onclick="switchPage('adminPage')">🔑 Admin Dashboard</button>
+    <button class="nav-btn active" onclick="switchPage('homePage')">🏠 Lessons & Syllabus</button>
+    <button class="nav-btn" onclick="switchPage('studentPage')">🎓 Student Marks Card</button>
+    <button class="nav-btn" onclick="switchPage('adminPage')">🔑 Teacher Dashboard</button>
   </nav>
 
   <div class="container">
     <header>
+      <img class="logo-img" src="logo.png" alt="IQRA Arabic Academy Logo">
       <h1>IQRA ARABIC ACADEMY</h1>
-      <p>Dynamic Learning Management Matrix</p>
+      <p>Karimnagar, Telangana, India</p>
     </header>
 
-    <div id="statusNotification" class="status-banner loading-banner">Connecting to system infrastructure...</div>
+    <div id="statusNotification" class="status-banner loading-banner">Connecting to server database...</div>
 
-    <!-- ================= PAGE 1: PUBLIC GENERAL HOME PAGE ================= -->
     <div id="homePage" class="app-page active">
       <div class="card">
-        <h3>Class Syllabus Directory</h3>
-        <p>Select a class below to review structural course materials, active lesson tracks, and instructor status indexes.</p>
+        <h3>Class Syllabus & Status</h3>
+        <p>Select a class below to check teacher names, current lessons, and class chapter progress logs.</p>
         <div class="form-group" style="max-width: 400px;">
-          <label for="homeClassSelect">Active Course Group</label>
+          <label for="homeClassSelect">Choose Class</label>
           <select id="homeClassSelect" class="form-control" onchange="renderHomeSyllabus()"></select>
         </div>
         <div id="classMetaDetails" style="margin-top: 15px; padding: 12px; background: #f8f9fa; border-radius: 4px; display:none;">
-          <strong>Lead Instructor:</strong> <span id="lblMetaInstructor"></span>
+          <strong>Teacher Name:</strong> <span id="lblMetaInstructor"></span>
         </div>
       </div>
       <div class="card">
-        <h4>Assigned Course Track Progress</h4>
+        <h4>Lesson Progress Timeline</h4>
         <div style="overflow-x: auto;">
           <table>
             <thead>
-              <tr><th>Subject</th><th>Chapter</th><th>Topic Details</th><th>Status</th><th>Notes</th></tr>
+              <tr><th>Subject</th><th>Chapter</th><th>Topic Details</th><th>Status</th><th>Notes Document</th></tr>
             </thead>
             <tbody id="homeSyllabusTableBody">
-              <tr><td colspan="5" style="text-align: center; color:#7f8c8d;">Select a course to populate active lesson progress.</td></tr>
+              <tr><td colspan="5" style="text-align: center; color:#7f8c8d;">Please select a class from the list above.</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ================= PAGE 2: STUDENT REPORT LOOKUP PORTAL ================= -->
     <div id="studentPage" class="app-page">
       <div class="card">
-        <h3>Student Identity Authentication</h3>
+        <h3>View Your Report Card</h3>
         <div style="display: flex; gap:15px; align-items: flex-end; flex-wrap: wrap;">
           <div class="form-group" style="flex:1; min-width:250px;">
             <label for="studentQueryInput">Enter Student ID Number or Full Name</label>
-            <input type="text" id="studentQueryInput" class="form-control" placeholder="e.g. IQ-001 or Ahmad Khan">
+            <input type="text" id="studentQueryInput" class="form-control" placeholder="Example: IQ-001 or Ahmad Khan">
           </div>
-          <button class="btn" onclick="searchStudentProfile()">Verify Credentials</button>
+          <button class="btn" onclick="searchStudentProfile()">Find Marks Card</button>
         </div>
         
         <div id="studentClassSelectorGroup" style="display: none; margin-top: 20px; padding-top:15px; border-top: 1px dashed #ccc;">
-          <label for="studentClassDropdown" style="color:var(--accent); font-weight:700;">Multiple Enrollments Found! Choose Class Dataset:</label>
+          <label for="studentClassDropdown" style="color:var(--primary); font-weight:700;">You are enrolled in more than one class. Please choose a class to view results:</label>
           <select id="studentClassDropdown" class="form-control" style="max-width:400px; margin-top:5px;" onchange="renderStudentReportCard()"></select>
         </div>
       </div>
 
       <div id="studentReportCardWrapper" style="display: none;">
-        <div class="card" style="background: linear-gradient(to right, #ffffff, #fafbfc); border-left: 5px solid var(--accent);">
-          <h4>Official Evaluation Matrix</h4>
-          <p><strong>Full Name:</strong> <span id="lblStName"></span> &nbsp;|&nbsp; <strong>Father's Guardian:</strong> <span id="lblStFather"></span></p>
+        <div class="card" style="background: linear-gradient(to right, #ffffff, #fafbfc); border-left: 5px solid var(--primary);">
+          <h4>Student Profile</h4>
+          <p><strong>Full Name:</strong> <span id="lblStName"></span> &nbsp;|&nbsp; <strong>Father's Name:</strong> <span id="lblStFather"></span></p>
         </div>
         <div class="card">
           <table>
             <thead>
-              <tr><th>Subject Field</th><th>Assessment Type</th><th>Score</th><th>Instructor Remarks</th></tr>
+              <tr><th>Subject Field</th><th>Exam Name</th><th>Marks Obtained</th><th>Teacher Feedback</th></tr>
             </thead>
             <tbody id="studentMarksTableBody"></tbody>
             <tfoot>
               <tr style="background:#f8f9fa; font-weight:700;">
-                <td colspan="2" style="text-align:right;">Cumulative Grade Score:</td>
-                <td id="lblStTotal" colspan="2" style="color:var(--success);"></td>
+                <td colspan="2" style="text-align:right;">Total Class Marks Score:</td>
+                <td id="lblStTotal" colspan="2" style="color:var(--primary);"></td>
               </tr>
             </tfoot>
           </table>
@@ -127,71 +225,63 @@
       </div>
     </div>
 
-    <!-- ================= PAGE 3: ADMIN INSTRUCTOR DASHBOARD ================= -->
     <div id="adminPage" class="app-page">
-      <!-- Authorization Guard Lockout -->
       <div id="adminAuthLock" class="card" style="max-width: 400px; margin: 40px auto; text-align: center;">
-        <h3>Secure Access Verification</h3>
+        <h3>Teacher Login Area</h3>
         <div class="form-group">
-          <input type="password" id="adminPassKey" class="form-control" placeholder="Enter Administration Passcode" style="text-align: center;">
+          <input type="password" id="adminPassKey" class="form-control" placeholder="Enter System Password" style="text-align: center;">
         </div>
-        <button class="btn" onclick="unlockAdminDashboard()">Verify Authority</button>
+        <button class="btn" onclick="unlockAdminDashboard()">Login</button>
       </div>
 
-      <!-- Main Administration Console Workspace Layout -->
       <div id="adminConsoleLayout" style="display: none;">
         
-        <!-- ROW 1: MASTER DIRECTORY SETUP FORMS -->
         <div class="card">
-          <h3 class="section-title">✨ Direct Directory Setup Matrix (Add New Setup Structural Row)</h3>
+          <h3 class="section-title">✨ Add New Structural Records (If they do not exist)</h3>
           <div class="grid-3">
-            <!-- Form A: Add Class -->
-            <div style="background:#f8f9fa; padding:15px; border-radius:6px; border:1px solid #e2e8f0;">
-              <h4 style="margin-top:0;">1. Create Class</h4>
+            <div style="background: var(--mint); padding:15px; border-radius:6px; border:1px solid #cce5df;">
+              <h4 style="margin-top:0; color: var(--secondary);">1. Create a New Class</h4>
               <div class="form-group"><input type="text" id="newClassId" class="form-control" placeholder="Class ID (e.g., ARAB-101)"></div>
-              <div class="form-group"><input type="text" id="newClassName" class="form-control" placeholder="Course Name"></div>
-              <div class="form-group"><input type="text" id="newClassInstructor" class="form-control" placeholder="Instructor Name"></div>
-              <button class="btn btn-dark" style="width:100%;" onclick="submitNewClass()">Add Class Row</button>
+              <div class="form-group"><input type="text" id="newClassName" class="form-control" placeholder="Course Title Name"></div>
+              <div class="form-group"><input type="text" id="newClassInstructor" class="form-control" placeholder="Teacher Name"></div>
+              <button class="btn" style="width:100%;" onclick="submitNewClass()">Save Class</button>
             </div>
             
-            <!-- Form B: Add Exam Custom to Class -->
-            <div style="background:#f8f9fa; padding:15px; border-radius:6px; border:1px solid #e2e8f0;">
-              <h4 style="margin-top:0;">2. Create Custom Exam</h4>
+            <div style="background: var(--mint); padding:15px; border-radius:6px; border:1px solid #cce5df;">
+              <h4 style="margin-top:0; color: var(--secondary);">2. Create Class Exam</h4>
               <div class="form-group">
                 <select id="newExamClassSelect" class="form-control"></select>
               </div>
-              <div class="form-group"><input type="text" id="newExamId" class="form-control" placeholder="Exam ID (e.g., MID-101)"></div>
-              <div class="form-group"><input type="text" id="newExamName" class="form-control" placeholder="Exam Name"></div>
+              <div class="form-group"><input type="text" id="newExamId" class="form-control" placeholder="Exam Code (e.g., MID-101)"></div>
+              <div class="form-group"><input type="text" id="newExamName" class="form-control" placeholder="Exam Name (e.g., Midterm)"></div>
               <div class="form-group"><input type="number" id="newExamTotal" class="form-control" placeholder="Total Marks (e.g., 100)"></div>
-              <button class="btn btn-dark" style="width:100%;" onclick="submitNewExam()">Add Exam Definition</button>
+              <button class="btn" style="width:100%;" onclick="submitNewExam()">Save Exam Type</button>
             </div>
 
-            <!-- Form C: Add Independent Student Profile -->
-            <div style="background:#f8f9fa; padding:15px; border-radius:6px; border:1px solid #e2e8f0;">
-              <h4 style="margin-top:0;">3. Register Student</h4>
+            <div style="background: var(--mint); padding:15px; border-radius:6px; border:1px solid #cce5df;">
+              <h4 style="margin-top:0; color: var(--secondary);">3. Register Student Profile</h4>
               <div class="form-group"><input type="text" id="newStudentId" class="form-control" placeholder="Student ID (e.g., IQ-050)"></div>
-              <div class="form-group"><input type="text" id="newStudentName" class="form-control" placeholder="Full Name"></div>
-              <div class="form-group"><input type="text" id="newStudentFather" class="form-control" placeholder="Father's Guardian Name"></div>
-              <button class="btn btn-dark" style="width:100%;" onclick="submitNewStudent()">Save Base Profile</button>
+              <div class="form-group"><input type="text" id="newStudentName" class="form-control" placeholder="Student Full Name"></div>
+              <div class="form-group"><input type="text" id="newStudentFather" class="form-control" placeholder="Father's Name"></div>
+              <button class="btn" style="width:100%;" onclick="submitNewStudent()">Save Student</button>
             </div>
           </div>
         </div>
 
-        <!-- ROW 2: ACTIVE EVALUATION ENTRY SHEET -->
         <div class="grid-2">
           <div class="card">
-            <h3>Class Roster Inspector</h3>
+            <h3>Class Enrolled Roster</h3>
             <div class="form-group">
-              <label for="adminClassSelect">Active Group Selection</label>
+              <label for="adminClassSelect">Choose Class List</label>
               <select id="adminClassSelect" class="form-control" onchange="syncAdminClassRoster()"></select>
             </div>
-            <h4>Active Roster Enrolled Students</h4>
+            <h4>Students List Enrolled Here:</h4>
             <ol id="adminStudentRosterList" style="padding-left:20px; font-weight: 500; line-height: 1.8;"></ol>
           </div>
 
           <div class="card">
-            <h3>Gradebook & Record Addition Input Matrix</h3>
-            <p style="font-size:13px; color:#7f8c8d; margin-top:-10px;">If student directory tags are unrecognized, the portal automatically provisions them baseline accounts below.</p>
+            <h3>Add Student Exam Marks</h3>
+            <p style="font-size:13px; color:#7f8c8d; margin-top:-10px;">Note: If the student ID is not registered yet, typing their name below will automatically create their profile for the first time.</p>
             <div class="grid-3" style="gap:10px;">
               <div class="form-group">
                 <label for="inputStudentId">Student ID *</label>
@@ -208,11 +298,11 @@
             </div>
             <div class="grid-3" style="gap:10px; margin-top: 10px;">
               <div class="form-group">
-                <label for="inputSubject">Subject Area</label>
+                <label for="inputSubject">Subject Name</label>
                 <input type="text" id="inputSubject" class="form-control" placeholder="Arabic Grammar">
               </div>
               <div class="form-group">
-                <label for="inputExamSelect">Class Assessment *</label>
+                <label for="inputExamSelect">Select Exam *</label>
                 <select id="inputExamSelect" class="form-control"></select>
               </div>
               <div class="form-group">
@@ -221,10 +311,10 @@
               </div>
             </div>
             <div class="form-group" style="margin-top:10px;">
-              <label for="inputComments">Feedback Remarks</label>
-              <textarea id="inputComments" class="form-control" rows="2" placeholder="Excellent presentation performance across written modules."></textarea>
+              <label for="inputComments">Teacher Feedback Comments</label>
+              <textarea id="inputComments" class="form-control" rows="2" placeholder="Good performance in written tests."></textarea>
             </div>
-            <button class="btn btn-success" style="width:100%;" onclick="commitAdminFormEntry()">Commit Grade Entry Ledger Row</button>
+            <button class="btn btn-success" style="width:100%;" onclick="commitAdminFormEntry()">Save Marks Record</button>
           </div>
         </div>
 
@@ -234,7 +324,8 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbw_Qpoc94l--caKgxKKNXz9-wcsW6E6TPc811LScMc-rq1J7iVsOQmlshRY4V3r_amGUg/exec'; // Replace this with your actual Web App URL
+    // Paste your Google Web App script URL between the single quotes below:
+    const API_URL = 'https://script.google.com/macros/s/AKfycbw_Qpoc94l--caKgxKKNXz9-wcsW6E6TPc811LScMc-rq1J7iVsOQmlshRY4V3r_amGUg/exec'; 
     let db = null;
     let selectedActiveStudentObj = null;
 
@@ -250,7 +341,7 @@
     function refreshDatabaseInstance() {
       const banner = document.getElementById("statusNotification");
       banner.className = "status-banner loading-banner";
-      banner.innerText = "Syncing system state metrics with remote architecture server...";
+      banner.innerText = "Syncing application data rows with central server...";
       banner.style.display = "block";
 
       fetch(API_URL, { method: 'GET', redirect: 'follow' })
@@ -262,7 +353,7 @@
         })
         .catch(err => {
           banner.className = "status-banner error-banner";
-          banner.innerText = "Connection Failed. Verify endpoint script execution tags.";
+          banner.innerText = "Connection Error. Make sure your Web App URL deployment is correct.";
         });
     }
 
@@ -271,7 +362,7 @@
       const adminClassSelect = document.getElementById("adminClassSelect");
       const examClassSelect = document.getElementById("newExamClassSelect");
 
-      homeSelect.innerHTML = '<option value="">-- Click to Select Course --</option>';
+      homeSelect.innerHTML = '<option value="">-- Choose Class Group --</option>';
       adminClassSelect.innerHTML = '';
       examClassSelect.innerHTML = '';
 
@@ -295,7 +386,7 @@
           examSelect.innerHTML += `<option value="${e.id}">${e.name} (Max: ${e.totalMarks})</option>`;
         });
       } else {
-        examSelect.innerHTML = '<option value="">-- No custom exams setup for this class --</option>';
+        examSelect.innerHTML = '<option value="">-- No exams exist for this class yet --</option>';
       }
     }
 
@@ -312,13 +403,13 @@
       metaBox.style.display = "block";
 
       if(cls.syllabus.length === 0) {
-        tBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No lesson criteria mapped out for this block.</td></tr>';
+        tBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No lesson plan tracks created for this class yet.</td></tr>';
         return;
       }
 
       cls.syllabus.forEach(s => {
         let bCls = s.status === "Completed" ? "badge-completed" : (s.status === "In Progress" ? "badge-progress" : "badge-upcoming");
-        let link = s.notesLink.startsWith("http") ? `<a href="${s.notesLink}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold;">📂 View Notes</a>` : '<em>Unavailable</em>';
+        let link = s.notesLink.startsWith("http") ? `<a href="${s.notesLink}" target="_blank" style="color:var(--primary); text-decoration:none; font-weight:bold;">📂 View Notes</a>` : '<em>None</em>';
         tBody.innerHTML += `<tr><td><strong>${s.subject}</strong></td><td>${s.chapter}</td><td>${s.topic}</td><td><span class="badge ${bCls}">${s.status}</span></td><td>${link}</td></tr>`;
       });
     }
@@ -334,7 +425,7 @@
       if(!query) { alert("Please input search parameters."); return; }
 
       const matchedStudent = db.students.find(s => s.id.toLowerCase() === query || s.name.toLowerCase().includes(query));
-      if(!matchedStudent) { alert("No student directory identity verified containing those metrics."); return; }
+      if(!matchedStudent) { alert("Student not found in registry."); return; }
       
       selectedActiveStudentObj = matchedStudent;
       document.getElementById("lblStName").innerText = selectedActiveStudentObj.name;
@@ -344,7 +435,7 @@
       classDropdown.innerHTML = "";
 
       if(selectedActiveStudentObj.enrolledClasses.length === 0) {
-        alert("This record profile exists but is missing valid class enrollment matrix pointers.");
+        alert("This profile exists but is not connected to any active class list rows.");
         return;
       }
 
@@ -369,13 +460,13 @@
       let marksObtained = 0, marksPossible = 0;
 
       if(records.length === 0) {
-        tBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No processed grading rows filed for this class category.</td></tr>';
+        tBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No marks values filed for this course yet.</td></tr>';
         document.getElementById("lblStTotal").innerText = "0 / 0 (0%)";
       } else {
         records.forEach(r => {
           marksObtained += r.marksObtained;
           marksPossible += r.totalMarks;
-          tBody.innerHTML += `<tr><td><strong>${r.subject}</strong></td><td>${r.examName}</td><td>${r.marksObtained} / ${r.totalMarks}</td><td><em>${r.comments || 'No comment entered'}</em></td></tr>`;
+          tBody.innerHTML += `<tr><td><strong>${r.subject}</strong></td><td>${r.examName}</td><td>${r.marksObtained} / ${r.totalMarks}</td><td><em>${r.comments || '-'}</em></td></tr>`;
         });
         document.getElementById("lblStTotal").innerText = `${marksObtained} / ${marksPossible} (${((marksObtained/marksPossible)*100).toFixed(1)}%)`;
       }
@@ -388,7 +479,7 @@
         document.getElementById("adminConsoleLayout").style.display = "block";
         syncAdminClassRoster();
       } else {
-        alert("Invalid authorization passcode.");
+        alert("Incorrect system passcode.");
       }
     }
 
@@ -399,10 +490,10 @@
 
       const enrolledStudents = db.students.filter(s => s.enrolledClasses.includes(classId));
       if(enrolledStudents.length === 0) {
-        rosterList.innerHTML = '<li style="color:#7f8c8d; list-style:none;">No students enrolled inside this class matrix yet.</li>';
+        rosterList.innerHTML = '<li style="color:#7f8c8d; list-style:none;">No students have been enrolled in this class yet.</li>';
       } else {
         enrolledStudents.forEach(s => {
-          rosterList.innerHTML += `<li><strong>${s.name}</strong> <span style="color:#7f8c8d; font-size:13px;">(${s.id})</span></li>`;
+          rosterList.innerHTML += `<li><strong>${s.name}</strong> <span style="color:#7f8c8d; font-size:13px;">(ID: ${s.id})</span></li>`;
         });
       }
       syncClassExamDropdown();
@@ -425,11 +516,10 @@
       }
     }
 
-    // ADMINISTRATIVE FORM SUBMISSIONS
     function sendAdminRequest(payload, successMessage) {
       const banner = document.getElementById("statusNotification");
       banner.className = "status-banner loading-banner";
-      banner.innerText = "Transmitting metrics ledger to core sheet structure...";
+      banner.innerText = "Transmitting record row changes to spreadsheet files...";
       banner.style.display = "block";
 
       fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
@@ -439,7 +529,7 @@
           alert(successMessage);
           refreshDatabaseInstance();
         } else {
-          alert("Error encountered: " + res.error);
+          alert("Error: " + res.error);
         }
       });
     }
@@ -451,8 +541,8 @@
         className: document.getElementById("newClassName").value.trim(),
         instructor: document.getElementById("newClassInstructor").value.trim()
       };
-      if(!payload.classId || !payload.className) return alert("Fill in required class parameters.");
-      sendAdminRequest(payload, "New class configuration added successfully!");
+      if(!payload.classId || !payload.className) return alert("Please type in both a Class ID and a Class Name.");
+      sendAdminRequest(payload, "New class line created successfully!");
     }
 
     function submitNewExam() {
@@ -463,8 +553,8 @@
         examName: document.getElementById("newExamName").value.trim(),
         totalMarks: document.getElementById("newExamTotal").value.trim()
       };
-      if(!payload.examId || !payload.examName || !payload.totalMarks) return alert("Fill in required exam fields.");
-      sendAdminRequest(payload, "Custom exam added and linked to selected class track!");
+      if(!payload.examId || !payload.examName || !payload.totalMarks) return alert("Please fill up all fields to setup an exam.");
+      sendAdminRequest(payload, "Custom class exam added successfully!");
     }
 
     function submitNewStudent() {
@@ -474,8 +564,8 @@
         studentName: document.getElementById("newStudentName").value.trim(),
         fatherName: document.getElementById("newStudentFather").value.trim()
       };
-      if(!payload.studentId || !payload.studentName) return alert("Fill in mandatory profile credentials.");
-      sendAdminRequest(payload, "New base student record provisioned safely.");
+      if(!payload.studentId || !payload.studentName) return alert("Student ID and Student Name cannot be empty.");
+      sendAdminRequest(payload, "New base student record profile created.");
     }
 
     function commitAdminFormEntry() {
@@ -492,19 +582,19 @@
       };
 
       if(!payload.studentId || !payload.examId || !payload.marksObtained) {
-        return alert("Please fulfill mandatory grading fields. Verify you have created an exam for this class first!");
+        return alert("Please fulfill all marks entry fields. Remember, you must create an exam type for this class first!");
       }
 
       const banner = document.getElementById("statusNotification");
       banner.className = "status-banner loading-banner";
-      banner.innerText = "Saving grade records...";
+      banner.innerText = "Saving student mark record rows...";
       banner.style.display = "block";
 
       fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) })
       .then(res => res.json())
       .then(res => {
         if(res.success) {
-          alert("Log successfully saved to relational storage.");
+          alert("Student entry log and marks saved cleanly.");
           document.getElementById("inputSubject").value = "";
           document.getElementById("inputScore").value = "";
           document.getElementById("inputComments").value = "";
