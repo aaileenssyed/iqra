@@ -6,11 +6,12 @@
   <title>IQRA Arabic Academy Portal</title>
   <style>
     :root {
-      --primary: #128c7e; /* Main Teal Green from the logo */
-      --secondary: #075e54; /* Dark Teal for headers and dark buttons */
-      --mint: #e8f5f1; /* Light Mint Green background for boxes */
-      --success: #25d366; /* Bright Green for save buttons */
-      --light: #f7f9f8; /* Soft background */
+      --primary: #128c7e; 
+      --secondary: #075e54; 
+      --mint: #e8f5f1; 
+      --success: #25d366; 
+      --danger: #e74c3c;
+      --light: #f7f9f8; 
       --dark: #2c3e50;
     }
     
@@ -22,7 +23,6 @@
       padding: 0; 
     }
     
-    /* Top Menu Navigation */
     .navbar { 
       background-color: var(--primary); 
       display: flex; 
@@ -50,7 +50,7 @@
     }
     
     .container { 
-      max-width: 1100px; 
+      max-width: 1250px; 
       margin: 20px auto; 
       padding: 0 20px; 
       box-sizing: border-box; 
@@ -59,7 +59,6 @@
     .app-page { display: none; }
     .app-page.active { display: block; }
     
-    /* Beautiful Academy Header featuring the Logo */
     header { 
       display: flex;
       flex-direction: column;
@@ -76,7 +75,7 @@
     }
     
     .logo-img {
-      max-width: 150px;
+      max-width: 130px;
       height: auto;
       margin-bottom: 15px;
     }
@@ -86,14 +85,12 @@
       color: var(--primary); 
       font-size: 28px; 
       font-weight: 700; 
-      letter-spacing: 0.5px;
     }
     
     header p { 
       margin: 5px 0 0 0; 
       color: #556360; 
       font-weight: 500;
-      font-size: 16px;
     }
     
     .card { 
@@ -111,7 +108,6 @@
     .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #333; }
     .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; box-sizing: border-box; }
     
-    /* Clean Simple Action Buttons */
     .btn { 
       background-color: var(--primary); 
       color: white; 
@@ -138,11 +134,32 @@
     
     .status-banner { padding: 12px; border-radius: 4px; text-align: center; font-weight: 600; margin-bottom: 20px; display: none; }
     .loading-banner { background-color: var(--mint); color: var(--secondary); display: block; }
-    .error-banner { background-color: #ffebee; color: #c62828; display: block; }
+    
+    /* Non-blocking Toast Alerts */
+    .toast-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 6px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 9999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .toast-success { background-color: var(--success); color: white; }
+    .toast-error { background-color: var(--danger); color: white; }
+    
     .section-title { border-bottom: 2px solid var(--mint); padding-bottom: 8px; margin-top: 0; color: var(--primary); }
   </style>
 </head>
 <body>
+
+  <div id="toast" class="toast-notification">Notification Message</div>
 
   <nav class="navbar">
     <button class="nav-btn active" onclick="switchPage('homePage')">🏠 Lessons & Syllabus</button>
@@ -152,7 +169,7 @@
 
   <div class="container">
     <header>
-      <img class="logo-img" src="logo.png" alt="IQRA Arabic Academy Logo">
+      <img class="logo-img" src="logo.png" alt="IQRA Arabic Academy Logo" onerror="this.style.display='none'">
       <h1>IQRA ARABIC ACADEMY</h1>
       <p>Karimnagar, Telangana, India</p>
     </header>
@@ -198,7 +215,7 @@
         </div>
         
         <div id="studentClassSelectorGroup" style="display: none; margin-top: 20px; padding-top:15px; border-top: 1px dashed #ccc;">
-          <label for="studentClassDropdown" style="color:var(--primary); font-weight:700;">You are enrolled in more than one class. Please choose a class to view results:</label>
+          <label for="studentClassDropdown" style="color:var(--primary); font-weight:700;">Select Class Data File:</label>
           <select id="studentClassDropdown" class="form-control" style="max-width:400px; margin-top:5px;" onchange="renderStudentReportCard()"></select>
         </div>
       </div>
@@ -237,7 +254,7 @@
       <div id="adminConsoleLayout" style="display: none;">
         
         <div class="card">
-          <h3 class="section-title">✨ Add New Structural Records (If they do not exist)</h3>
+          <h3 class="section-title">✨ Add New Structural Records</h3>
           <div class="grid-3">
             <div style="background: var(--mint); padding:15px; border-radius:6px; border:1px solid #cce5df;">
               <h4 style="margin-top:0; color: var(--secondary);">1. Create a New Class</h4>
@@ -268,68 +285,129 @@
           </div>
         </div>
 
-        <div class="grid-2">
-          <div class="card">
-            <h3>Class Enrolled Roster</h3>
-            <div class="form-group">
-              <label for="adminClassSelect">Choose Class List</label>
-              <select id="adminClassSelect" class="form-control" onchange="syncAdminClassRoster()"></select>
+        <div class="card">
+          <h3 class="section-title">📚 Add New Class Topics & Syllabus Tracks</h3>
+          <div class="grid-2">
+            <div>
+              <div class="form-group">
+                <label for="syllabusClassSelect">Target Class Framework</label>
+                <select id="syllabusClassSelect" class="form-control"></select>
+              </div>
+              <div class="grid-2" style="gap:10px;">
+                <div class="form-group">
+                  <label for="syllabusSubject">Subject Field</label>
+                  <input type="text" id="syllabusSubject" class="form-control" placeholder="e.g. Grammar">
+                </div>
+                <div class="form-group">
+                  <label for="syllabusChapter">Chapter Heading</label>
+                  <input type="text" id="syllabusChapter" class="form-control" placeholder="e.g. Chapter 3">
+                </div>
+              </div>
             </div>
-            <h4>Students List Enrolled Here:</h4>
-            <ol id="adminStudentRosterList" style="padding-left:20px; font-weight: 500; line-height: 1.8;"></ol>
+            <div>
+              <div class="form-group">
+                <label for="syllabusTopic">Topic Details Description</label>
+                <input type="text" id="syllabusTopic" class="form-control" placeholder="e.g. Sound Feminine Plurals">
+              </div>
+              <div class="grid-2" style="gap:10px;">
+                <div class="form-group">
+                  <label for="syllabusStatus">Current Status</label>
+                  <select id="syllabusStatus" class="form-control">
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="syllabusLink">Reference Notes Link (Optional)</label>
+                  <input type="url" id="syllabusLink" class="form-control" placeholder="https://drive.google.com/...">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-dark" style="width:100%; margin-top:5px;" onclick="submitNewSyllabusRow()">Append Syllabus Progress Row</button>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title">📊 High-Speed Marks Entry Ledger</h3>
+          <p style="font-size:13px; color:#7f8c8d; margin-top:-10px;">Choose the target class and specific exam parameters to unlock speed entry fields.</p>
+          
+          <div class="grid-2" style="background:#f8f9fa; padding:15px; border-radius:6px; margin-bottom:15px;">
+            <div class="form-group">
+              <label for="adminClassSelect" style="color:var(--secondary);">Step A: Choose Class</label>
+              <select id="adminClassSelect" class="form-control" onchange="syncAdminClassView()"></select>
+            </div>
+            <div class="form-group">
+              <label for="inputExamSelect" style="color:var(--secondary);">Step B: Select Active Exam</label>
+              <select id="inputExamSelect" class="form-control" onchange="renderConsolidatedMarksheet()"></select>
+            </div>
           </div>
 
-          <div class="card">
-            <h3>Add Student Exam Marks</h3>
-            <p style="font-size:13px; color:#7f8c8d; margin-top:-10px;">Note: If the student ID is not registered yet, typing their name below will automatically create their profile for the first time.</p>
-            <div class="grid-3" style="gap:10px;">
-              <div class="form-group">
-                <label for="inputStudentId">Student ID *</label>
-                <input type="text" id="inputStudentId" class="form-control" placeholder="IQ-001" onblur="autofillStudentProfileCheck()">
-              </div>
-              <div class="form-group">
-                <label for="inputStudentName">Student Name</label>
-                <input type="text" id="inputStudentName" class="form-control" placeholder="Ahmad Khan">
-              </div>
-              <div class="form-group">
-                <label for="inputFatherName">Father's Name</label>
-                <input type="text" id="inputFatherName" class="form-control" placeholder="Tariq Khan">
-              </div>
+          <div class="grid-3" style="gap:10px;">
+            <div class="form-group">
+              <label for="inputStudentId">Student ID *</label>
+              <input type="text" id="inputStudentId" class="form-control" placeholder="IQ-001" onblur="autofillStudentProfileCheck()">
             </div>
-            <div class="grid-3" style="gap:10px; margin-top: 10px;">
-              <div class="form-group">
-                <label for="inputSubject">Subject Name</label>
-                <input type="text" id="inputSubject" class="form-control" placeholder="Arabic Grammar">
-              </div>
-              <div class="form-group">
-                <label for="inputExamSelect">Select Exam *</label>
-                <select id="inputExamSelect" class="form-control"></select>
-              </div>
-              <div class="form-group">
-                <label for="inputScore">Marks Obtained</label>
-                <input type="number" id="inputScore" class="form-control" placeholder="85">
-              </div>
+            <div class="form-group">
+              <label for="inputStudentName">Student Name</label>
+              <input type="text" id="inputStudentName" class="form-control" placeholder="Ahmad Khan">
             </div>
-            <div class="form-group" style="margin-top:10px;">
-              <label for="inputComments">Teacher Feedback Comments</label>
-              <textarea id="inputComments" class="form-control" rows="2" placeholder="Good performance in written tests."></textarea>
+            <div class="form-group">
+              <label for="inputFatherName">Father's Name</label>
+              <input type="text" id="inputFatherName" class="form-control" placeholder="Tariq Khan">
             </div>
-            <button class="btn btn-success" style="width:100%;" onclick="commitAdminFormEntry()">Save Marks Record</button>
+          </div>
+          <div class="grid-3" style="gap:10px; margin-top: 5px;">
+            <div class="form-group">
+              <label for="inputSubject">Subject Field Reference</label>
+              <input type="text" id="inputSubject" class="form-control" placeholder="General Oral Evaluation">
+            </div>
+            <div class="form-group">
+              <label for="inputScore">Marks Obtained *</label>
+              <input type="number" id="inputScore" class="form-control" placeholder="85">
+            </div>
+            <div class="form-group">
+              <label for="inputComments">Feedback Remarks</label>
+              <input type="text" id="inputComments" class="form-control" placeholder="Excellent marks.">
+            </div>
+          </div>
+          <button class="btn btn-success" style="width:100%; margin-top:10px;" onclick="commitAdminFormEntry()">Save Score Record Line</button>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title">📋 Class Consolidated Marksheet View</h3>
+          <p style="font-size:13px; color:#7f8c8d; margin-top:-10px;">Displays a comprehensive view of all student scores across exams recorded for the chosen class.</p>
+          <div style="overflow-x: auto;">
+            <table id="consolidatedMarksheetTable">
+              <thead><tr id="consolidatedHeaderRow"><th>Student Details</th></tr></thead>
+              <tbody id="consolidatedBodyRows"></tbody>
+            </table>
           </div>
         </div>
 
       </div>
     </div>
-
   </div>
 
   <script>
-    // Paste your Google Web App script URL between the single quotes below:
     const API_URL = 'https://script.google.com/macros/s/AKfycbw_Qpoc94l--caKgxKKNXz9-wcsW6E6TPc811LScMc-rq1J7iVsOQmlshRY4V3r_amGUg/exec'; 
     let db = null;
     let selectedActiveStudentObj = null;
 
     window.addEventListener('DOMContentLoaded', refreshDatabaseInstance);
+
+    function showToast(text, type = "success") {
+      const toast = document.getElementById("toast");
+      toast.innerText = text;
+      toast.className = `toast-notification toast-${type}`;
+      toast.style.display = "block";
+      setTimeout(() => { toast.style.opacity = "1"; }, 10);
+      
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => { toast.style.display = "none"; }, 300);
+      }, 2000);
+    }
 
     function switchPage(pageId) {
       document.querySelectorAll('.app-page').forEach(el => el.classList.remove('active'));
@@ -353,7 +431,7 @@
         })
         .catch(err => {
           banner.className = "status-banner error-banner";
-          banner.innerText = "Connection Error. Make sure your Web App URL deployment is correct.";
+          banner.innerText = "Connection Error. Check deployment Web App configurations.";
         });
     }
 
@@ -361,21 +439,24 @@
       const homeSelect = document.getElementById("homeClassSelect");
       const adminClassSelect = document.getElementById("adminClassSelect");
       const examClassSelect = document.getElementById("newExamClassSelect");
+      const syllabusClassSelect = document.getElementById("syllabusClassSelect");
 
       homeSelect.innerHTML = '<option value="">-- Choose Class Group --</option>';
       adminClassSelect.innerHTML = '';
       examClassSelect.innerHTML = '';
+      syllabusClassSelect.innerHTML = '';
 
       db.classes.forEach(c => {
         homeSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
         adminClassSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
         examClassSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+        syllabusClassSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
       });
 
-      syncClassExamDropdown();
+      syncAdminClassView();
     }
 
-    function syncClassExamDropdown() {
+    function syncAdminClassView() {
       const classId = document.getElementById("adminClassSelect").value;
       const examSelect = document.getElementById("inputExamSelect");
       examSelect.innerHTML = "";
@@ -386,8 +467,50 @@
           examSelect.innerHTML += `<option value="${e.id}">${e.name} (Max: ${e.totalMarks})</option>`;
         });
       } else {
-        examSelect.innerHTML = '<option value="">-- No exams exist for this class yet --</option>';
+        examSelect.innerHTML = '<option value="">-- No exams exist for this class --</option>';
       }
+      renderConsolidatedMarksheet();
+    }
+
+    function renderConsolidatedMarksheet() {
+      const classId = document.getElementById("adminClassSelect").value;
+      const headerRow = document.getElementById("consolidatedHeaderRow");
+      const bodyRows = document.getElementById("consolidatedBodyRows");
+      
+      headerRow.innerHTML = "<th>Student Details</th>";
+      bodyRows.innerHTML = "";
+      
+      const cls = db.classes.find(c => c.id === classId);
+      if(!cls) return;
+
+      cls.exams.forEach(e => {
+        headerRow.innerHTML += `<th>${e.name} <br><small style="font-weight:normal;">(Max: ${e.totalMarks})</small></th>`;
+      });
+      
+      const enrolledStudents = db.students.filter(s => s.enrolledClasses.includes(classId));
+      
+      if(enrolledStudents.length === 0) {
+        bodyRows.innerHTML = `<tr><td colspan="${cls.exams.length + 1}" style="text-align:center; color:#7f8c8d;">No student profiles registered under this class.</td></tr>`;
+        return;
+      }
+
+      enrolledStudents.forEach(student => {
+        let rowHtml = `<tr><td><strong>${student.name}</strong><br><small style="color:#555;">ID: ${student.id}</small></td>`;
+        
+        const marksList = student.recordsByClass[classId] || [];
+        
+        cls.exams.forEach(exam => {
+          const matchedRecord = marksList.find(m => m.examName === exam.name);
+          if(matchedRecord) {
+            rowHtml += `<td><strong>${matchedRecord.marksObtained}</strong></td>`;
+          } else {
+            rowHtml += `<td style="color:#bbb;">-</td>`;
+          }
+        });
+        
+        rowHtml += "</tr>";
+        bodyRows.innerHTML += rowHtml;
+      });
     }
 
     function renderHomeSyllabus() {
@@ -422,10 +545,10 @@
       multiGroup.style.display = "none";
       cardWrapper.style.display = "none";
 
-      if(!query) { alert("Please input search parameters."); return; }
+      if(!query) { showToast("Please input search criteria.", "error"); return; }
 
       const matchedStudent = db.students.find(s => s.id.toLowerCase() === query || s.name.toLowerCase().includes(query));
-      if(!matchedStudent) { alert("Student not found in registry."); return; }
+      if(!matchedStudent) { showToast("Student identity not found.", "error"); return; }
       
       selectedActiveStudentObj = matchedStudent;
       document.getElementById("lblStName").innerText = selectedActiveStudentObj.name;
@@ -435,7 +558,7 @@
       classDropdown.innerHTML = "";
 
       if(selectedActiveStudentObj.enrolledClasses.length === 0) {
-        alert("This profile exists but is not connected to any active class list rows.");
+        showToast("Student profile exists but missing class map logs.", "error");
         return;
       }
 
@@ -460,13 +583,13 @@
       let marksObtained = 0, marksPossible = 0;
 
       if(records.length === 0) {
-        tBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No marks values filed for this course yet.</td></tr>';
+        tBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No entries posted for this course.</td></tr>';
         document.getElementById("lblStTotal").innerText = "0 / 0 (0%)";
       } else {
         records.forEach(r => {
           marksObtained += r.marksObtained;
           marksPossible += r.totalMarks;
-          tBody.innerHTML += `<tr><td><strong>${r.subject}</strong></td><td>${r.examName}</td><td>${r.marksObtained} / ${r.totalMarks}</td><td><em>${r.comments || '-'}</em></td></tr>`;
+          tBody.innerHTML += `<tr><td><strong>${r.subject || 'Evaluation'}</strong></td><td>${r.examName}</td><td>${r.marksObtained} / ${r.totalMarks}</td><td><em>${r.comments || '-'}</em></td></tr>`;
         });
         document.getElementById("lblStTotal").innerText = `${marksObtained} / ${marksPossible} (${((marksObtained/marksPossible)*100).toFixed(1)}%)`;
       }
@@ -477,26 +600,10 @@
       if(document.getElementById("adminPassKey").value === "1234") {
         document.getElementById("adminAuthLock").style.display = "none";
         document.getElementById("adminConsoleLayout").style.display = "block";
-        syncAdminClassRoster();
+        syncAdminClassView();
       } else {
-        alert("Incorrect system passcode.");
+        showToast("Incorrect system passcode.", "error");
       }
-    }
-
-    function syncAdminClassRoster() {
-      const classId = document.getElementById("adminClassSelect").value;
-      const rosterList = document.getElementById("adminStudentRosterList");
-      rosterList.innerHTML = "";
-
-      const enrolledStudents = db.students.filter(s => s.enrolledClasses.includes(classId));
-      if(enrolledStudents.length === 0) {
-        rosterList.innerHTML = '<li style="color:#7f8c8d; list-style:none;">No students have been enrolled in this class yet.</li>';
-      } else {
-        enrolledStudents.forEach(s => {
-          rosterList.innerHTML += `<li><strong>${s.name}</strong> <span style="color:#7f8c8d; font-size:13px;">(ID: ${s.id})</span></li>`;
-        });
-      }
-      syncClassExamDropdown();
     }
 
     function autofillStudentProfileCheck() {
@@ -526,10 +633,10 @@
       .then(res => res.json())
       .then(res => {
         if(res.success) {
-          alert(successMessage);
+          showToast(successMessage, "success");
           refreshDatabaseInstance();
         } else {
-          alert("Error: " + res.error);
+          showToast("Server Error: " + res.error, "error");
         }
       });
     }
@@ -541,8 +648,8 @@
         className: document.getElementById("newClassName").value.trim(),
         instructor: document.getElementById("newClassInstructor").value.trim()
       };
-      if(!payload.classId || !payload.className) return alert("Please type in both a Class ID and a Class Name.");
-      sendAdminRequest(payload, "New class line created successfully!");
+      if(!payload.classId || !payload.className) return showToast("Fulfill structural input fields.", "error");
+      sendAdminRequest(payload, "New class line created!");
     }
 
     function submitNewExam() {
@@ -553,8 +660,8 @@
         examName: document.getElementById("newExamName").value.trim(),
         totalMarks: document.getElementById("newExamTotal").value.trim()
       };
-      if(!payload.examId || !payload.examName || !payload.totalMarks) return alert("Please fill up all fields to setup an exam.");
-      sendAdminRequest(payload, "Custom class exam added successfully!");
+      if(!payload.examId || !payload.examName || !payload.totalMarks) return showToast("Fulfill exam description fields.", "error");
+      sendAdminRequest(payload, "Custom class exam added!");
     }
 
     function submitNewStudent() {
@@ -564,8 +671,30 @@
         studentName: document.getElementById("newStudentName").value.trim(),
         fatherName: document.getElementById("newStudentFather").value.trim()
       };
-      if(!payload.studentId || !payload.studentName) return alert("Student ID and Student Name cannot be empty.");
-      sendAdminRequest(payload, "New base student record profile created.");
+      if(!payload.studentId || !payload.studentName) return showToast("Fulfill profile credential inputs.", "error");
+      sendAdminRequest(payload, "New student profile saved!");
+    }
+
+    function submitNewSyllabusRow() {
+      const payload = {
+        passcode: "1234", action: "addSyllabus",
+        classId: document.getElementById("syllabusClassSelect").value,
+        subject: document.getElementById("syllabusSubject").value.trim(),
+        chapter: document.getElementById("syllabusChapter").value.trim(),
+        topic: document.getElementById("syllabusTopic").value.trim(),
+        status: document.getElementById("syllabusStatus").value,
+        notesLink: document.getElementById("syllabusLink").value.trim()
+      };
+
+      if(!payload.classId || !payload.subject || !payload.topic) {
+        return showToast("Please input Class, Subject, and Topic parameters.", "error");
+      }
+
+      sendAdminRequest(payload, "Syllabus tracking module row appended!");
+      document.getElementById("syllabusSubject").value = "";
+      document.getElementById("syllabusChapter").value = "";
+      document.getElementById("syllabusTopic").value = "";
+      document.getElementById("syllabusLink").value = "";
     }
 
     function commitAdminFormEntry() {
@@ -582,7 +711,7 @@
       };
 
       if(!payload.studentId || !payload.examId || !payload.marksObtained) {
-        return alert("Please fulfill all marks entry fields. Remember, you must create an exam type for this class first!");
+        return showToast("Please check mandatory input fields.", "error");
       }
 
       const banner = document.getElementById("statusNotification");
@@ -594,14 +723,20 @@
       .then(res => res.json())
       .then(res => {
         if(res.success) {
-          alert("Student entry log and marks saved cleanly.");
-          document.getElementById("inputSubject").value = "";
+          showToast("Marks entry row saved successfully.");
+          document.getElementById("inputStudentId").value = "";
+          document.getElementById("inputStudentName").value = "";
+          document.getElementById("inputFatherName").value = "";
+          document.getElementById("inputStudentName").disabled = false;
+          document.getElementById("inputFatherName").disabled = false;
           document.getElementById("inputScore").value = "";
           document.getElementById("inputComments").value = "";
+          
           refreshDatabaseInstance();
-          setTimeout(syncAdminClassRoster, 1500);
+          setTimeout(syncAdminClassView, 1200);
+          document.getElementById("inputStudentId").focus();
         } else {
-          alert("Error: " + res.error);
+          showToast("Error processing data submission.", "error");
         }
       });
     }
